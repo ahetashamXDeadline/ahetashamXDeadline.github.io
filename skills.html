@@ -25,7 +25,11 @@
                     <li><a href="books.html">Books</a></li>
                     <li><a href="blogs.html">Blogs</a></li>
                 </ul>
-                <a href="contact.html" class="cta-btn">Get in touch</a>
+                <button class="menu-toggle" onclick="toggleMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </nav>
         </div>
     </header>
@@ -103,6 +107,24 @@
 
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
     <script src="js/particle-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+    <script src="js/particle-config.js"></script>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            const menuToggle = document.querySelector('.menu-toggle');
+            navLinks.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        }
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelector('.nav-links').classList.remove('active');
+                document.querySelector('.menu-toggle').classList.remove('active');
+            });
+        });
+    </script>
 </body>
 </html>
 
