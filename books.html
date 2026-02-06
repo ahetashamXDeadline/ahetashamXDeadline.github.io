@@ -3,10 +3,479 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Experience - Ahetasham Shifat</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Reading & Study Log - Ahetasham Shifat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Merriweather:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* ===================================
+           BOOKS PAGE STYLES - CATEGORIZED
+           =================================== */
+
+        .books-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .books-stats {
+            text-align: center;
+            color: #808080;
+            font-size: 13px;
+            margin-bottom: 60px;
+            padding: 20px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 10px;
+            display: inline-block;
+            width: 100%;
+        }
+
+        /* Category Section */
+        .category-section {
+            margin-bottom: 80px;
+        }
+
+        .section-subtitle {
+            color: #b0b0b0;
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 1.6;
+            margin-top: 15px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .category-title {
+            color: #667eea;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .category-title i {
+            font-size: 28px;
+            color: #764ba2;
+        }
+
+        .category-divider {
+            height: 2px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, transparent 100%);
+            margin-bottom: 40px;
+            margin-top: 15px;
+        }
+
+        /* Subcategory */
+        .subcategory {
+            margin-bottom: 50px;
+        }
+
+        .subcategory-title {
+            color: #fff;
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            padding: 15px 20px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .subcategory-title span {
+            background: rgba(102, 126, 234, 0.15);
+            color: #667eea;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        /* Books Grid */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 35px;
+            margin-bottom: 0;
+        }
+
+        .book-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .book-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Book Cover Image */
+        .book-cover {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .book-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .book-card:hover .book-cover img {
+            transform: scale(1.05);
+        }
+
+        .book-cover-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 48px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .book-detail-cover.no-image {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .book-detail-cover.no-image .book-cover-placeholder {
+            display: flex;
+            font-size: 64px;
+        }
+
+        .book-status-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .book-status-badge.completed {
+            background: rgba(34, 197, 94, 0.8);
+        }
+
+        .book-status-badge.reading {
+            background: rgba(59, 130, 246, 0.8);
+        }
+
+        /* Book Info */
+        .book-content {
+            padding: 25px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .book-title {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .book-author {
+            color: #667eea;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .book-rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .stars {
+            display: flex;
+            gap: 3px;
+        }
+
+        .star {
+            color: #fbbf24;
+            font-size: 12px;
+        }
+
+        .star.empty {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .rating-text {
+            color: #b0b0b0;
+            font-size: 12px;
+        }
+
+        .book-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+
+        .book-category {
+            background: rgba(102, 126, 234, 0.15);
+            color: #667eea;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .book-summary {
+            color: #a0a0a0;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .book-date {
+            color: #808080;
+            font-size: 11px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .book-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .book-btn {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            background: transparent;
+            color: #667eea;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .book-btn:hover {
+            background: rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .book-btn.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: transparent;
+            color: #fff;
+        }
+
+        .book-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Modal Styles */
+        .book-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .book-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .book-modal-content {
+            background: rgb(2, 6, 23);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s ease;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .book-modal-close {
+            position: sticky;
+            top: 0;
+            background: rgb(2, 6, 23);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-size: 24px;
+            text-align: right;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 2001;
+        }
+
+        .book-modal-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .book-detail-container {
+            padding: 40px;
+        }
+
+        .book-detail-header {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+            align-items: start;
+        }
+
+        .book-detail-cover {
+            border-radius: 10px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .book-detail-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .book-detail-info h1 {
+            color: #fff;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .book-detail-author {
+            color: #667eea;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .book-detail-rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .book-detail-rating .stars {
+            gap: 5px;
+        }
+
+        .book-detail-rating .star {
+            font-size: 16px;
+        }
+
+        .book-detail-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            color: #b0b0b0;
+            font-size: 13px;
+        }
+
+        .book-detail-review {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .book-detail-review h3 {
+            color: #fff;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .book-detail-review p {
+            color: #d0d0d0;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .books-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 25px;
+            }
+
+            .book-detail-header {
+                grid-template-columns: 1fr;
+            }
+
+            .book-detail-container {
+                padding: 25px;
+            }
+
+            .category-title {
+                font-size: 20px;
+            }
+
+            .subcategory-title {
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -22,7 +491,7 @@
                     <li><a href="experiences.html">Experiences</a></li>
                     <li><a href="projects.html">Projects</a></li>
                     <li><a href="skills.html">Skills</a></li>
-                    <li><a href="books.html" style="color:#fff; font-weight: 600;" >Books</a></li>
+                    <li><a href="books.html" style="color:#fff; font-weight: 600;">Books</a></li>
                     <li><a href="blogs.html">Blogs</a></li>
                 </ul>
                 <a href="contact.html" class="cta-btn">Get in touch</a>
@@ -30,158 +499,597 @@
         </div>
     </header>
 
+    <!-- Book Detail Modal -->
+    <div id="bookModal" class="book-modal">
+        <div class="book-modal-content">
+            <button class="book-modal-close" onclick="closeBookModal()">&times;</button>
+            <div id="bookDetailContent" class="book-detail-container"></div>
+        </div>
+    </div>
+
     <main style="padding-top: 60px;">
-        <section class="experiences">
+        <section class="experiences" id="books-section">
             <div class="container">
                 <div class="section-header">
-                    <p class="section-label">My Book reading Journey</p>
-                    <h2 class="section-title">Tech Books</h2>
+                    <p class="section-label">Academic Reading</p>
+                    <h2 class="section-title">Reading & Study Log</h2>
+                    <p class="section-subtitle">A curated record of academic textbooks and non-fiction works I've studied, with personal reflections and ratings.</p>
                 </div>
-                
-                <div class="experience-timeline">
-                    <div class="experience-card">
-                        <div class="exp-header">
-                            <div>
-                                <h3>Machine Learning Intern</h3>
-                                <p class="exp-company">Tech Company Name</p>
-                            </div>
-                            <span class="exp-date">Jun 2023 - Aug 2023</span>
-                        </div>
-                        <ul class="exp-responsibilities">
-                            <li>Developed and deployed ML models for customer segmentation</li>
-                            <li>Improved model accuracy by 15% through feature engineering</li>
-                            <li>Collaborated with cross-functional teams to integrate AI solutions</li>
-                        </ul>
-                        <div class="exp-tags">
-                            <span class="tag">Python</span>
-                            <span class="tag">Scikit-learn</span>
-                            <span class="tag">AWS</span>
-                        </div>
-                    </div>
 
-                    <div class="experience-card">
-                        <div class="exp-header">
-                            <div>
-                                <h3>FYAT Mentor</h3>
-                                <p class="exp-company">BRAC University</p>
-                            </div>
-                            <span class="exp-date">June 2025 - Present</span>
-                        </div>
-                    </div>
-                        <ul class="exp-responsibilities">
-                            <li>Conducting research on NLP applications for low-resource languages</li>
-                            <li>Published paper in international conference</li>
-                            <li>Mentored junior students in machine learning projects</li>
-                        </ul>
-                        <div class="exp-tags">
-                            <span class="tag">NLP</span>
-                            <span class="tag">Research</span>
-                            <span class="tag">PyTorch</span>
-                        </div>
+                <div class="books-stats" id="booksStats">
+                    Total: 17 | Completed: 5 | Currently Reading: 12 | Average Rating: 4.3/5
+                </div>
 
-
-                    <div class="experience-card">
-                        <div class="exp-header">
-                            <div>
-                                <h3>Business Analyst</h3>
-                                <p class="exp-company">Phoenix Education</p>
-                            </div>
-                            <span class="exp-date">Jan 2024 - Feb 2025</span>
-                        </div>
-                        <ul class="exp-responsibilities">
-                            <li>Conducting research on NLP applications for low-resource languages</li>
-                            <li>Published paper in international conference</li>
-                            <li>Mentored junior students in machine learning projects</li>
-                        </ul>
-                        <div class="exp-tags">
-                            <span class="tag">NLP</span>
-                            <span class="tag">Research</span>
-                            <span class="tag">PyTorch</span>
-                        </div>
-                    </div>
+                <div id="booksContent">
+                    <!-- Categories will be rendered here -->
                 </div>
             </div>
         </section>
     </main>
 
+    <footer>
+        <div class="container">
+            <div class="footer-wrapper">
+                
+                <div class="footer-profile">
+                    <img src="assets/images/my_photo.png" alt="Ahetasham Shifat" class="footer-profile-img">
+                    <h2 class="footer-name">Ahetasham Shifat</h2>
+                </div>
 
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <ul class="footer-contact-list">
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:shifatasr15@gmail.com">shifatasr15@gmail.com</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:+8801885801813">+8801885801813</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Dhaka, Bangladesh</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Connect</h3>
+                    <div class="footer-social-icons">
+                        <a href="https://github.com/ahetashamXDeadline" target="_blank" class="social-icon" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/yourprofile" target="_blank" class="social-icon" title="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://twitter.com/yourprofile" target="_blank" class="social-icon" title="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ahetasham Shifat. All rights reserved.</p>
+                <p class="footer-tagline">Building the future with AI and Code</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
     <script src="js/particle-config.js"></script>
+
+    <script>
+        // Book data structure with categories
+        const booksData = [
+            // ===== ACADEMIC & TECH BOOKS =====
+            // Introduction to Programming
+            {
+                id: 1,
+                title: "Python Crash Course",
+                author: "Eric Matthes",
+                coverUrl: "/assets/images/books/python-crash-course.jpg",
+                bookLink: "https://openlibrary.org/works/OL17175455W/Python_crash_course",
+                mainCategory: "Academic & Technical Books",
+                subcategory: "Introduction to Programming",
+                tags: ["Python", "Programming", "Beginner"],
+                rating: 5,
+                status: "completed",
+                dateFinished: "Sep 2024",
+                summary: "Hands-on introduction to programming using Python with practical projects and real-world applications.",
+                review: "Excellent entry point into programming. Matthes balances theory with practical projects. The progression from basics to games and data visualization is perfectly paced."
+            },
+
+            {
+                id: 2,
+                title: "Think Python",
+                author: "Allen Downey",
+                coverUrl: "/assets/images/books/think-python.jpg",
+                bookLink: "https://openlibrary.org/works/OL9391859W/Think_Python",
+                mainCategory: "Academic & Technical Books",
+                subcategory: "Introduction to Programming",
+                tags: ["Python", "Programming", "Concepts"],
+                rating: 4,
+                status: "reading",
+                dateFinished: "In Progress",
+                summary: "Beginner-friendly guide teaching how to think like a programmer using Python fundamentals.",
+                review: "Clear explanations of core programming concepts. Downey's approach emphasizes problem-solving and computational thinking over syntax memorization."
+            },
+
+            {
+                id: 3,
+                title: "Automate the Boring Stuff with Python",
+                author: "Al Sweigart",
+                coverUrl: "/assets/images/books/automate-boring-stuff.jpg",
+                bookLink: "https://openlibrary.org/works/OL19078088W/Automate_the_Boring_Stuff_with_Python",
+                mainCategory: "Academic & Technical Books",
+                subcategory: "Introduction to Programming",
+                tags: ["Python", "Practical", "Automation"],
+                rating: 4,
+                status: "reading",
+                dateFinished: "In Progress",
+                summary: "Practical guide to automating everyday tasks and writing scripts using Python.",
+                review: "Highly practical with real-world examples. Perfect for learning Python by solving actual problems like web scraping, file handling, and automation."
+            },
+
+            {
+                id: 4,
+                title: "Fluent Python",
+                author: "Luciano Ramalho",
+                coverUrl: "/assets/images/books/fluent-python.jpg",
+                bookLink: "https://openlibrary.org/works/OL17175462W/Fluent_Python",
+                mainCategory: "Academic & Technical Books",
+                subcategory: "Introduction to Programming",
+                tags: ["Python", "OOP", "Advanced"],
+                rating: 5,
+                status: "reading",
+                dateFinished: "In Progress",
+                summary: "Deep dive into Python's object-oriented programming, data structures, and advanced features.",
+                review: "Comprehensive guide to writing Pythonic code. Covers OOP, decorators, metaclasses, and functional programming. Essential for intermediate Python developers."
+            },
+
+            // Data Structures & Algorithms
+            {
+                id: 5,
+                title: "Introduction to Algorithms",
+                author: "Thomas H. Cormen, Charles E. Leiserson",
+                coverUrl: "/assets/images/books/introduction-to-algorithms.jpg",
+                bookLink: "https://openlibrary.org/books/OL7415262M/Introduction_to_algorithms",
+                mainCategory: "Academic & Technical Books",
+                subcategory: "Data Structures & Algorithms",
+                tags: ["Algorithms", "Data Structures", "Computer Science"],
+                rating: 5,
+                status: "completed",
+                dateFinished: "Oct 2024",
+                summary: "The classic textbook covering fundamental algorithms, data structures, and computational complexity.",
+                review: "Often called the 'Bible' of algorithms, this book is a must-read for any serious computer scientist. The CLRS book provides deep dives into complexity analysis, sorting, graph algorithms, and dynamic programming with crystal clear explanations and pseudocode."
+            },
+
+            {
+                id: 6,
+                title: "Grokking Algorithms",
+                author: "Aditya Y. Bhargava",
+                coverUrl: "/assets/images/books/grokking-algorithms.jpg",
+                bookLink: "https://openlibrary.org/works/OL17408813W/Grokking_algorithms",
+                mainCategory: "Academic & Technical Books",
+                subcategory: "Data Structures & Algorithms",
+                tags: ["Algorithms", "DSA", "Practical"],
+                rating: 4,
+                status: "reading",
+                dateFinished: "In Progress",
+                summary: "Illustrated guide to algorithms with real-world examples and practical applications.",
+                review: "A fantastic visual introduction to algorithms. Makes complex concepts accessible through diagrams and illustrations. Perfect for learning before diving into CLRS."
+            },
+
+            // CS Fundamentals
+            {
+                id: 7,
+                title: "Code: The Hidden Language Behind Everything",
+                author: "Charles Petzold",
+                coverUrl: "/assets/images/books/code-hidden-language.jpg",
+                bookLink: "https://openlibrary.org/works/OL6992661W/Code",
+                mainCategory: "Academic & Technical Books",
+                subcategory: "Computer Science Fundamentals",
+                tags: ["CS Fundamentals", "Computer Science", "History"],
+                rating: 4,
+                status: "reading",
+                dateFinished: "In Progress",
+                summary: "Explores how computers work at the most fundamental level through the history of codes and signals.",
+                review: "Brilliantly written. Takes you from morse code to modern computing. Essential for understanding computer science from first principles."
+            },
+
+            // Web & Database
+            {
+                id: 8,
+                title: "Computer Networks: A Top-Down Approach",
+                author: "James F. Kurose, Keith W. Ross",
+                coverUrl: "/assets/images/books/computer-networks.jpg",
+                bookLink: "https://openlibrary.org/works/OL16857097W/Computer_networks",
+                mainCategory: "Academic & Technical Books",
+                subcategory: "Computer Science Fundamentals",
+                tags: ["Networks", "Web", "Systems"],
+                rating: 4,
+                status: "reading",
+                dateFinished: "In Progress",
+                summary: "Comprehensive guide to networking from application layer down to physical layer protocols.",
+                review: "Clear explanations of networking concepts. The top-down approach makes it easier to understand how the internet actually works."
+            },
+
+            // Machine Learning & Deep Learning
+            {
+                id: 9,
+                title: "Deep Learning",
+                author: "Ian Goodfellow, Yoshua Bengio, Aaron Courville",
+                coverUrl: "/assets/images/books/deep-learning.jpg",
+                bookLink: "https://openlibrary.org/books/OL26346636M/Deep_learning",
+                mainCategory: "Academic & Technical Books",
+                subcategory: "Machine Learning, Deep Learning & NLP",
+                tags: ["Machine Learning", "AI", "Neural Networks"],
+                rating: 5,
+                status: "completed",
+                dateFinished: "Dec 2024",
+                summary: "Comprehensive guide to deep learning covering neural networks, optimization, and advanced architectures.",
+                review: "An outstanding reference for understanding the theoretical foundations of deep learning. Dense but incredibly valuable. The mathematical explanations are rigorous and the practical insights make it essential for any ML practitioner."
+            },
+
+            {
+                id: 10,
+                title: "Natural Language Processing with Transformers",
+                author: "Lewis Tunstall, Leandro von Werra, Thomas Wolf",
+                coverUrl: "/assets/images/books/nlp-transformers.jpg",
+                bookLink: "https://openlibrary.org/works/OL23667500W/Natural_Language_Processing_with_Transformers",
+                mainCategory: "Academic & Technical Books",
+                subcategory: "Machine Learning, Deep Learning & NLP",
+                tags: ["NLP", "Machine Learning", "AI"],
+                rating: 5,
+                status: "completed",
+                dateFinished: "Nov 2024",
+                summary: "Hands-on guide to modern NLP using transformer models and the Hugging Face library.",
+                review: "Perfect for getting up to speed with modern NLP. Combines theoretical understanding with practical code examples. Goes from basics to fine-tuning state-of-the-art models."
+            },
+
+            {
+                id: 11,
+                title: "Designing Machine Learning Systems",
+                author: "Chip Huyen",
+                coverUrl: "/assets/images/books/designing-ml-systems.jpg",
+                bookLink: "https://openlibrary.org/works/OL24700898W/Designing_Machine_Learning_Systems",
+                mainCategory: "Academic & Technical Books",
+                subcategory: "Machine Learning, Deep Learning & NLP",
+                tags: ["Machine Learning", "Systems Design", "MLOps"],
+                rating: 4,
+                status: "reading",
+                dateFinished: "In Progress",
+                summary: "Practical guide to designing, building, and maintaining ML systems in production environments.",
+                review: "Bridges the gap between ML theory and production reality. Covers data pipelines, feature engineering, model deployment, and monitoring in clear, actionable ways."
+            },
+
+            // ===== NON-FICTION & SELF-HELP =====
+            {
+                id: 12,
+                title: "Atomic Habits",
+                author: "James Clear",
+                coverUrl: "/assets/images/books/atomic-habits.jpg",
+                bookLink: "https://openlibrary.org/works/OL19937469W/Atomic_habits",
+                mainCategory: "Non-Fiction & Personal Development",
+                subcategory: "Self-Improvement & Reflective Reading",
+                tags: ["Habits", "Productivity", "Self-Help"],
+                rating: 5,
+                status: "reading",
+                dateFinished: "In Progress",
+                summary: "Transform your life through small, incremental changes in daily habits.",
+                review: "Eye-opening insights on how small habits compound over time. Practical frameworks applicable to programming, fitness, and personal growth."
+            },
+
+            {
+                id: 13,
+                title: "Thinking, Fast and Slow",
+                author: "Daniel Kahneman",
+                coverUrl: "/assets/images/books/thinking-fast-slow.jpg",
+                bookLink: "https://openlibrary.org/works/OL15728584W/Thinking_fast_and_slow",
+                mainCategory: "Non-Fiction & Personal Development",
+                subcategory: "Self-Improvement & Reflective Reading",
+                tags: ["Psychology", "Decision Making", "Cognitive Science"],
+                rating: 5,
+                status: "reading",
+                dateFinished: "In Progress",
+                summary: "Explores the two systems of human thought and how they influence decision-making and behavior.",
+                review: "Profound and enlightening. Understanding cognitive biases is crucial for making better decisions in life and work. Nobel Prize-winning psychology."
+            },
+
+            // ===== MATHEMATICS & MATHEMATICAL FOUNDATIONS =====
+            {
+                id: 14,
+                title: "Calculus",
+                author: "James Stewart",
+                coverUrl: "/assets/images/books/calculus-stewart.jpg",
+                bookLink: "https://openlibrary.org/works/OL5873155W/Calculus",
+                mainCategory: "Academic & Technical Books",
+                subcategory: "Mathematics for Computer Science",
+                tags: ["Calculus", "Mathematics", "Analysis"],
+                rating: 4,
+                status: "reading",
+                dateFinished: "In Progress",
+                summary: "Comprehensive introduction to differential and integral calculus with applications to science and engineering.",
+                review: "Clear explanations with excellent problem sets. Essential foundation for understanding mathematical analysis and optimization in computer science."
+            },
+
+            {
+                id: 15,
+                title: "Linear Algebra",
+                author: "Gilbert Strang",
+                coverUrl: "/assets/images/books/linear-algebra-strang.jpg",
+                bookLink: "https://openlibrary.org/works/OL5873262W/Introduction_to_linear_algebra",
+                mainCategory: "Academic & Technical Books",
+                subcategory: "Mathematics for Computer Science",
+                tags: ["Linear Algebra", "Mathematics", "Matrices"],
+                rating: 5,
+                status: "reading",
+                dateFinished: "In Progress",
+                summary: "Fundamental guide to linear algebra covering vectors, matrices, eigenvalues, and applications to machine learning and computer graphics.",
+                review: "Gilbert Strang's approach is intuitive and geometric. Critical for understanding neural networks, computer graphics, and numerical computation."
+            },
+
+            {
+                id: 16,
+                title: "Discrete Mathematics",
+                author: "Kenneth H. Rosen",
+                coverUrl: "/assets/images/books/discrete-math-rosen.jpg",
+                bookLink: "https://openlibrary.org/works/OL5873369W/Discrete_mathematics_and_its_applications",
+                mainCategory: "Academic & Technical Books",
+                subcategory: "Mathematics for Computer Science",
+                tags: ["Discrete Math", "Logic", "Graph Theory"],
+                rating: 4,
+                status: "reading",
+                dateFinished: "In Progress",
+                summary: "Comprehensive coverage of discrete mathematics including logic, proofs, sets, functions, graph theory, and combinatorics.",
+                review: "Essential mathematical foundation for computer science. Rosen's explanations are clear and the applications to CS are well-motivated and practical."
+            },
+
+            {
+                id: 17,
+                title: "Numerical Analysis",
+                author: "Richard L. Burden, David Faires",
+                coverUrl: "/assets/images/books/numerical-analysis.jpg",
+                bookLink: "https://openlibrary.org/works/OL5873451W/Numerical_analysis",
+                mainCategory: "Academic & Technical Books",
+                subcategory: "Mathematics for Computer Science",
+                tags: ["Numerical Methods", "Algorithms", "Computation"],
+                rating: 4,
+                status: "reading",
+                dateFinished: "In Progress",
+                summary: "Practical guide to numerical methods for solving mathematical problems computationally with error analysis and algorithm complexity.",
+                review: "Bridges theory and implementation. Essential for understanding how mathematical algorithms work in practice on computers and handling numerical precision issues."
+            }
+        ];
+
+        // Organize books by category and subcategory
+        function organizeBooks() {
+            const organized = {};
+            
+            booksData.forEach(book => {
+                if (!organized[book.mainCategory]) {
+                    organized[book.mainCategory] = {};
+                }
+                if (!organized[book.mainCategory][book.subcategory]) {
+                    organized[book.mainCategory][book.subcategory] = [];
+                }
+                organized[book.mainCategory][book.subcategory].push(book);
+            });
+            
+            return organized;
+        }
+
+        // Render books by category
+        function renderBooks() {
+            const organized = organizeBooks();
+            const booksContent = document.getElementById('booksContent');
+            
+            const categoryIcons = {
+                'Academic & Technical Books': 'fas fa-book',
+                'Non-Fiction & Personal Development': 'fas fa-seedling'
+            };
+
+            // Define subcategory order for Academic & Technical Books
+            const subcategoryOrder = {
+                'Academic & Technical Books': [
+                    'Introduction to Programming',
+                    'Mathematics for Computer Science',
+                    'Data Structures & Algorithms',
+                    'Computer Science Fundamentals',
+                    'Machine Learning, Deep Learning & NLP'
+                ],
+                'Non-Fiction & Personal Development': [
+                    'Self-Improvement & Reflective Reading',
+                    'Finance, Startups & Business Literacy'
+                ]
+            };
+
+            let html = '';
+
+            Object.entries(organized).forEach(([mainCategory, subcategories]) => {
+                html += `
+                    <div class="category-section">
+                        <div class="category-title">
+                            <i class="${categoryIcons[mainCategory]}"></i>
+                            ${mainCategory}
+                        </div>
+                        <div class="category-divider"></div>
+                `;
+
+                // Sort subcategories by defined order
+                const orderedSubcats = (subcategoryOrder[mainCategory] || [])
+                    .filter(subcat => subcategories[subcat])
+                    .reduce((acc, subcat) => {
+                        acc[subcat] = subcategories[subcat];
+                        return acc;
+                    }, {});
+
+                Object.entries(orderedSubcats).forEach(([subcategory, books]) => {
+                    html += `
+                        <div class="subcategory">
+                            <div class="subcategory-title">
+                                ${subcategory}
+                                <span>${books.length} ${books.length === 1 ? 'book' : 'books'}</span>
+                            </div>
+                            <div class="books-grid">${books.length > 0 ? `
+                                ${books.map(book => `
+                                    <article class="book-card" onclick="openBookDetail(${book.id})">
+                                        <div class="book-cover">
+                                            <img 
+                                                src="${book.coverUrl}" 
+                                                alt="${book.title}" 
+                                                loading="lazy"
+                                                onerror="this.style.display='none'; this.nextElementSibling?.style.display='flex'"
+                                            >
+                                            <div class="book-cover-placeholder" style="${book.coverUrl?.includes('placeholder') ? 'display:flex' : 'display:none'}">
+                                                <i class="fas fa-book"></i>
+                                            </div>
+                                            <span class="book-status-badge ${book.status}">
+                                                ${book.status === 'completed' ? '✓ Completed' : '📖 Reading'}
+                                            </span>
+                                        </div>
+                                        <div class="book-content">
+                                            <h3 class="book-title">${book.title}</h3>
+                                            <p class="book-author">by ${book.author.split(',')[0]}</p>
+                                            
+                                            <div class="book-rating">
+                                                <div class="stars">
+                                                    ${Array(5).fill(0).map((_, i) => `
+                                                        <span class="star ${i < book.rating ? '' : 'empty'}">★</span>
+                                                    `).join('')}
+                                                </div>
+                                                <span class="rating-text">${book.rating}/5</span>
+                                            </div>
+
+                                            <div class="book-categories">
+                                                ${book.tags.slice(0, 2).map(tag => `
+                                                    <span class="book-category">${tag}</span>
+                                                `).join('')}
+                                            </div>
+
+                                            <p class="book-summary">${book.summary}</p>
+
+                                            <div class="book-date">
+                                                <i class="fas fa-calendar-check"></i>
+                                                ${book.status === 'completed' ? `Finished: ${book.dateFinished}` : 'Currently Reading'}
+                                            </div>
+
+                                            <div class="book-actions">
+                                                <button class="book-btn">View Details</button>
+                                            </div>
+                                        </div>
+                                    </article>
+                                `).join('')}` : `<p style="text-align: center; color: #808080; padding: 40px 20px; grid-column: 1 / -1;">Coming soon...</p>`}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `</div>`;
+            });
+
+            booksContent.innerHTML = html;
+        }
+
+        // Open book detail modal
+        function openBookDetail(bookId) {
+            const book = booksData.find(b => b.id === bookId);
+            if (!book) return;
+
+            const content = document.getElementById('bookDetailContent');
+            content.innerHTML = `
+                <div class="book-detail-header">
+                    <div class="book-detail-cover">
+                        <img 
+                            src="${book.coverUrl}" 
+                            alt="${book.title}"
+                            onerror="this.style.display='none'; this.parentElement?.classList.add('no-image')"
+                        >
+                        <div class="book-cover-placeholder" style="${book.coverUrl?.includes('placeholder') ? 'display:flex' : 'display:none'}">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                    <div class="book-detail-info">
+                        <h1>${book.title}</h1>
+                        <p class="book-detail-author">by ${book.author}</p>
+                        
+                        <div class="book-detail-rating">
+                            <div class="stars">
+                                ${Array(5).fill(0).map((_, i) => `
+                                    <span class="star ${i < book.rating ? '' : 'empty'}">★</span>
+                                `).join('')}
+                            </div>
+                            <span class="rating-text">${book.rating}/5</span>
+                        </div>
+
+                        <div class="book-detail-meta">
+                            <div><strong>Status:</strong> ${book.status === 'completed' ? '✓ Completed' : '📖 Currently Reading'}</div>
+                            <div><strong>Category:</strong> ${book.mainCategory}</div>
+                            <div><strong>Subcategory:</strong> ${book.subcategory}</div>
+                            <div><strong>Tags:</strong> ${book.tags.join(', ')}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="book-detail-review">
+                    <h3>My Thoughts</h3>
+                    <p>${book.review}</p>
+                </div>
+
+                <div style="margin-top: 30px; display: flex; gap: 12px;">
+                    ${book.bookLink ? `<a href="${book.bookLink}" target="_blank" class="book-btn primary" style="flex: 1; text-align: center; text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-external-link-alt"></i> View on OpenLibrary
+                    </a>` : ''}
+                    <button class="book-btn" onclick="closeBookModal()" style="flex: 1;">Close</button>
+                </div>
+            `;
+
+            document.getElementById('bookModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close modal
+        function closeBookModal() {
+            document.getElementById('bookModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Update statistics
+        function updateStats() {
+            const total = booksData.length;
+            const completed = booksData.filter(b => b.status === 'completed').length;
+            const reading = booksData.filter(b => b.status === 'reading').length;
+            const avgRating = (booksData.reduce((sum, b) => sum + b.rating, 0) / total).toFixed(1);
+
+            document.getElementById('booksStats').textContent = 
+                `Total: ${total} | Completed: ${completed} | Currently Reading: ${reading}`;
+        }
+
+        // Initialize
+        function initializeBooks() {
+            renderBooks();
+            updateStats();
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('bookModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeBookModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeBookModal();
+            }
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initializeBooks);
+    </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<footer>
-    <div class="container">
-        <div class="footer-wrapper">
-            
-            <div class="footer-profile">
-                <img src="assets/images/my_photo.png" alt="Ahetasham Shifat" class="footer-profile-img">
-                <h2 class="footer-name">Ahetasham Shifat</h2>
-            </div>
-
-            <div class="footer-col">
-                <h3>Contact</h3>
-                <ul class="footer-contact-list">
-                    <li>
-                        <i class="fas fa-envelope"></i>
-                        <a href="mailto:shifatasr15@gmail.com">shifatasr15@gmail.com</a>
-                    </li>
-                    <li>
-                        <i class="fas fa-phone"></i>
-                        <a href="tel:+8801885801813">+8801885801813</a>
-                    </li>
-                    <li>
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Dhaka, Bangladesh</span>
-                    </li>
-                </ul>
-            </div>
-
-
-
-
-
-
-            <div class="footer-col">
-                <h3>Connect</h3>
-                <div class="footer-social-icons">
-                    <a href="https://github.com/ahetashamXDeadline" target="_blank" class="social-icon" title="GitHub">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a href="https://linkedin.com/in/yourprofile" target="_blank" class="social-icon" title="LinkedIn">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a href="https://twitter.com/yourprofile" target="_blank" class="social-icon" title="Twitter">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    </div>
-            </div>
-
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2026 Ahetasham Shifat. All rights reserved.</p>
-            <p class="footer-tagline">Building the future with AI and Code</p>
-        </div>
-    </div>
-</footer>
