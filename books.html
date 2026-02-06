@@ -22,11 +22,10 @@
             color: #808080;
             font-size: 13px;
             margin-bottom: 60px;
-            padding: 20px;
+            padding: 10px 15px;
             background: rgba(102, 126, 234, 0.05);
             border-radius: 10px;
             display: inline-block;
-            width: 100%;
         }
 
         /* Category Section */
@@ -455,8 +454,47 @@
         /* Responsive */
         @media (max-width: 768px) {
             .books-grid {
-                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-                gap: 25px;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+            }
+
+            .book-card {
+                border-radius: 12px;
+            }
+
+            .book-cover {
+                height: 160px;
+            }
+
+            .book-content {
+                padding: 18px;
+            }
+
+            .book-title {
+                font-size: 16px;
+                margin-bottom: 6px;
+            }
+
+            .book-author {
+                font-size: 12px;
+            }
+
+            .book-summary {
+                font-size: 12px;
+                line-height: 1.4;
+                margin-bottom: 10px;
+            }
+
+            .book-rating {
+                margin-bottom: 10px;
+            }
+
+            .star {
+                font-size: 10px;
+            }
+
+            .rating-text {
+                font-size: 11px;
             }
 
             .book-detail-header {
@@ -464,15 +502,97 @@
             }
 
             .book-detail-container {
-                padding: 25px;
+                padding: 20px;
+            }
+
+            .book-detail-cover {
+                height: 180px;
+            }
+
+            .book-detail-info h1 {
+                font-size: 24px;
             }
 
             .category-title {
                 font-size: 20px;
+                gap: 8px;
+            }
+
+            .category-title i {
+                font-size: 24px;
             }
 
             .subcategory-title {
+                font-size: 16px;
+                padding: 12px 15px;
+                margin-bottom: 18px;
+            }
+
+            .subcategory-title span {
+                font-size: 10px;
+                padding: 2px 6px;
+            }
+
+            .books-stats {
+                font-size: 12px;
+                padding: 15px;
+                margin-bottom: 40px;
+            }
+
+            .section-header {
+                padding: 40px 0 20px;
+            }
+
+            .section-title {
+                font-size: 28px;
+                margin-bottom: 15px;
+            }
+
+            .section-subtitle {
                 font-size: 14px;
+                margin-top: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .books-grid {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .category-title {
+                font-size: 18px;
+            }
+
+            .subcategory-title {
+                font-size: 15px;
+                padding: 10px 12px;
+            }
+
+            .book-content {
+                padding: 15px;
+            }
+
+            .book-title {
+                font-size: 15px;
+            }
+
+            .book-actions {
+                gap: 8px;
+            }
+
+            .book-btn {
+                padding: 8px 10px;
+                font-size: 11px;
+            }
+
+            .book-modal-content {
+                width: 95%;
+                border-radius: 12px;
+            }
+
+            .book-detail-container {
+                padding: 15px;
             }
         }
     </style>
@@ -596,8 +716,8 @@
                 subcategory: "Introduction to Programming",
                 tags: ["Python", "Programming", "Beginner"],
                 rating: 5,
-                status: "completed",
-                dateFinished: "Sep 2024",
+                status: "reading",
+                dateFinished: "In Progress",
                 summary: "Hands-on introduction to programming using Python with practical projects and real-world applications.",
                 review: "Excellent entry point into programming. Matthes balances theory with practical projects. The progression from basics to games and data visualization is perfectly paced."
             },
